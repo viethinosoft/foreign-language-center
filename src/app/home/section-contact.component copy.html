@@ -1,0 +1,83 @@
+<header class="masthead3">
+    <div class="container px-4 px-lg-5 h-100">
+
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-lg-8 col-xl-6 text-center">
+                    <h2 class="mt-0">Đăng ký ngay</h2>
+                    <hr class="divider">
+                    <p class="text-muted mb-5">
+                        Sẵn sàng để bắt đầu với chúng tôi? Đăng ký với TutorMe ngay bây giờ
+                        và chúng tôi sẽ liên hệ lại với bạn!
+                    </p>
+                </div>
+            </div>
+            <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
+                <div class="col-lg-6">
+                    <form (ngSubmit)="onSubmit()" [formGroup]="form" role="form" novalidate>
+                        <div class="form-floating mb-3">
+                            <input type="text" id="fullname" [ngClass]="
+                              form.controls['fullname'].valid ||
+                              form.controls['fullname'].untouched
+                                ? 'form-control'
+                                : 'form-control is-invalid'
+                            " formControlName="fullname" [maxlength]="128" />
+                            <label for="fullname">Họ và Tên</label>
+                            <div id="fullNameHelp" class="form-text">VD: Nguyễn Thị Lan</div>
+                        </div>
+    
+                        <div class="form-floating mb-3">
+                            <input type="text" id="phone" appPhoneMask [ngClass]="
+                              form.controls['phone'].valid || form.controls['phone'].untouched
+                                ? 'form-control'
+                                : 'form-control is-invalid'
+                            " formControlName="phone" [maxlength]="16" placeholder="{{ 'Phone' | translate }}" />
+                            <label for="phone">Số điện thoại</label>
+                            <div id="phoneHelp" class="form-text">
+                                Nhập số điện thoại của bạn, được dùng để liên hệ
+                            </div>
+                        </div>
+    
+                        <div class="form-floating mb-3">
+                            <input type="email" id="email" [ngClass]="
+                              form.controls['email'].valid || form.controls['email'].untouched
+                                ? 'form-control'
+                                : 'form-control is-invalid'
+                            " formControlName="email" email="true" [maxlength]="120"
+                                placeholder="{{ 'Email' | translate }}" />
+                            <label for="email">Địa chỉ Email</label>
+                            <div id="emailHelp" class="form-text">
+                                Địa chỉ Email của bạn, được dùng để kích hoạt tài khoản
+                            </div>
+                        </div>
+    
+                        <div class="form-floating mb-3">
+                            <textarea id="message" [ngClass]="
+                              form.controls['message'].valid ||
+                              form.controls['message'].untouched
+                                ? 'form-control'
+                                : 'form-control is-invalid'
+                            " formControlName="message">
+                            </textarea>
+                            <label for="message">Nội dung</label>
+                            <div id="messageHelp" class="form-text">Nội dung liên hệ của bạn</div>
+                        </div>
+    
+                        <div class="text-center my-4">
+                            <button [disabled]="form.invalid || isLoading" class="btn btn-primary py-2 px-5 fw-bold"
+                                type="submit">
+                                <span class="me-2" *ngIf="!isLoading">Đăng ký</span>
+                                <i *ngIf="isLoading" class="fa-solid fa-circle-notch fa-spin"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</header>
+
+<section class="contact-us" id="contact">
+    
+</section>
