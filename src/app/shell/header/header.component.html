@@ -1,4 +1,40 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+<nav class="py-2 bg-light">
+  <div class="container d-flex flex-wrap">
+    <ul class="nav me-auto">
+      <li class="nav-item"><a href="/" class="nav-link px-2 link-dark">Trang Chủ</a></li>
+      <li class="nav-item"><a href="#services" class="nav-link px-2 link-dark">Nội Dung</a></li>
+      <li class="nav-item"><a href="#products" class="nav-link px-2 link-dark">Khoá Học</a></li>
+      <li class="nav-item"><a href="#contact-us" class="nav-link px-2 link-dark">Liên Hệ</a></li>
+    </ul>
+    <ul class="nav">
+      <li class="nav-item">
+        <a href="#contact-us" class="btn btn-warning me-2 fw-bold">Đăng ký tham gia</a>
+      </li>
+      <li class="nav-item">
+        <a class="btn btn-default text-dark">Đăng nhập</a>
+      </li>
+      <li class="nav-item border-start">
+        <app-language-selector [inNavbar]="true" menuClass="dropdown-menu dropdown-menu-right">
+        </app-language-selector>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<header class="py-3">
+  <div class="container d-flex flex-wrap justify-content-center">
+    <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
+      <img src="./assets/hinosoft-logo.png" class="bi me-2" width="40" height="32" alt="TutorMe" title="TutorMe" />
+      <span class="fs-4">TutorMe</span>
+    </a>
+    <form class="col-12 col-lg-auto mb-3 mb-lg-0" role="search">
+      <input type="search" class="form-control" placeholder="Tìm kiếm..." aria-label="Search">
+    </form>
+  </div>
+</header>
+
+
+<!-- <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
   <div class="container">
     <a class="navbar-brand" href="#" translate>
       <img src="./assets/hinosoft-logo.png" class="bi me-2" width="40" height="32" alt="TutorMe" title="TutorMe" />
@@ -10,40 +46,16 @@
     </button>
     <div id="navbar-menu" class="collapse navbar-collapse float-xs-none" [ngbCollapse]="menuHidden">
       <div class="navbar-nav me-auto mb-2 mb-lg-0">
-        <!-- <a class="nav-item nav-link text-uppercase" routerLink="/home" routerLinkActive="active">
-          <i class="fas fa-home"></i>
-          <span translate>Home</span>
-        </a>
-        <a class="nav-item nav-link text-uppercase" routerLink="/about" routerLinkActive="active">
-          <i class="fas fa-question-circle"></i>
-          <span translate>About</span>
-        </a> -->
       </div>
       <div class="navbar-nav ml-auto">
-        <!-- <app-language-selector [inNavbar]="true" menuClass="dropdown-menu dropdown-menu-right">
-        </app-language-selector>
-        <div class="nav-item" ngbDropdown>
-          <a id="user-dropdown" class="nav-link" ngbDropdownToggle>
-            <i class="fas fa-user-circle"></i>
-          </a>
-          <div ngbDropdownMenu aria-labelledby="user-dropdown" class="dropdown-menu dropdown-menu-right">
-            <h6 class="dropdown-header">
-              <span translate>Logged in as</span> <b>{{ username }}</b>
-            </h6>
-            <div class="dropdown-divider"></div>
-            <button class="dropdown-item" (click)="logout()" translate>Logout</button>
-          </div>
-        </div> -->
+        <div class="d-flex justify-content-between">
 
-        <div class="text-end me-3">
-          <a href="#contact-us" class="btn btn-warning  me-2">Đăng ký tham gia</a>
-          <a  class="btn btn-light text-dark">Đăng nhập</a>
-        </div>
-        <div class=" border-start">
-          <app-language-selector [inNavbar]="true" menuClass="dropdown-menu dropdown-menu-right">
-          </app-language-selector>
+          <div>
+            <a href="#contact-us" class="btn btn-warning me-2">Đăng ký tham gia</a>
+            <a class="btn btn-light text-dark">Đăng nhập</a>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</nav>
+</nav> -->
