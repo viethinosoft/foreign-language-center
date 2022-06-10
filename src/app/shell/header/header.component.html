@@ -1,18 +1,49 @@
-<nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
-    <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="#page-top">
-            <img src="./assets/hinosoft-logo.png" class="bi me-2" width="40" height="32" alt="" title="" />
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="#" translate>
+      <img src="./assets/hinosoft-logo.png" class="bi me-2" width="40" height="32" alt="TutorMe" title="TutorMe" />
+      TutorMe
+    </a>
+    <button class="navbar-toggler" type="button" aria-controls="navbar-menu" aria-label="Toggle navigation"
+      (click)="toggleMenu()" [attr.aria-expanded]="!menuHidden">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="navbar-menu" class="collapse navbar-collapse float-xs-none" [ngbCollapse]="menuHidden">
+      <div class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- <a class="nav-item nav-link text-uppercase" routerLink="/home" routerLinkActive="active">
+          <i class="fas fa-home"></i>
+          <span translate>Home</span>
         </a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-            aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ms-auto my-2 my-lg-0">
-                <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-                <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-            </ul>
+        <a class="nav-item nav-link text-uppercase" routerLink="/about" routerLinkActive="active">
+          <i class="fas fa-question-circle"></i>
+          <span translate>About</span>
+        </a> -->
+      </div>
+      <div class="navbar-nav ml-auto">
+        <!-- <app-language-selector [inNavbar]="true" menuClass="dropdown-menu dropdown-menu-right">
+        </app-language-selector>
+        <div class="nav-item" ngbDropdown>
+          <a id="user-dropdown" class="nav-link" ngbDropdownToggle>
+            <i class="fas fa-user-circle"></i>
+          </a>
+          <div ngbDropdownMenu aria-labelledby="user-dropdown" class="dropdown-menu dropdown-menu-right">
+            <h6 class="dropdown-header">
+              <span translate>Logged in as</span> <b>{{ username }}</b>
+            </h6>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item" (click)="logout()" translate>Logout</button>
+          </div>
+        </div> -->
+
+        <div class="text-end me-3">
+          <a href="#contact-us" class="btn btn-warning  me-2">Đăng ký tham gia</a>
+          <a  class="btn btn-light text-dark">Đăng nhập</a>
         </div>
+        <div class=" border-start">
+          <app-language-selector [inNavbar]="true" menuClass="dropdown-menu dropdown-menu-right">
+          </app-language-selector>
+        </div>
+      </div>
     </div>
+  </div>
 </nav>
