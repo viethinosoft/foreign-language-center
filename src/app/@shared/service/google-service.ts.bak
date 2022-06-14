@@ -1,0 +1,221 @@
+// import * as fs from "fs";
+// import { google } from "googleapis";
+// import { TsGoogleDrive } from "ts-google-drive";
+
+// // const tsGoogleDrive = new TsGoogleDrive({ keyFilename: "serviceAccount.json" });
+// const tsGoogleDrive = new TsGoogleDrive({ credentials: { client_email: "", private_key: "" } });
+
+// async function auth() {
+//     const drive1 = new TsGoogleDrive({ keyFilename: "serviceAccount.json" });
+//     const drive2 = new TsGoogleDrive({ credentials: { client_email: "", private_key: "" } });
+
+//     // for steps in getting access_token using oauth, you can take reference below
+//     // https://medium.com/@terence410/using-google-oauth-to-access-its-api-nodejs-b2678ade776f
+//     const drive3 = new TsGoogleDrive({ oAuthCredentials: { access_token: "" } });
+//     const drive4 = new TsGoogleDrive({ oAuthCredentials: { refresh_token: "" }, oauthClientOptions: { clientId: "", clientSecret: "" } });
+// }
+
+// async function getSingleFile() {
+//     const fileId = "";
+//     const file = await tsGoogleDrive.getFile(fileId);
+//     if (file) {
+//         const isFolder = file.isFolder;
+//     }
+// }
+
+// async function listFolders() {
+//     const folderId = "";
+//     const folders = await tsGoogleDrive
+//         .query()
+//         .setFolderOnly()
+//         .inFolder(folderId)
+//         .run();
+// }
+
+// async function createFolder() {
+//     const folderId = "";
+//     const newFolder = await tsGoogleDrive.createFolder({
+//         name: "testing",
+//         parent: folderId,
+//     });
+
+//     // try to search for it again
+//     const foundFolder = await tsGoogleDrive
+//         .query()
+//         .setFolderOnly()
+//         .setModifiedTime("=", newFolder.modifiedAt)
+//         .runOnce();
+// }
+
+// async function uploadAndDownload() {
+//     const folderId = "";
+//     const filename = "./icon.png";
+//     const newFile = await tsGoogleDrive.upload(filename, { parent: folderId });
+//     const downloadBuffer = await newFile.download();
+
+//     // of if you want stream
+//     const drive = google.drive({ version: "v3", auth: newFile.client });
+//     const file = await drive.files.get({
+//         fileId: newFile.id,
+//         alt: 'media'
+//     }, { responseType: "stream" });
+
+//     file.data.on("data", data => {
+//         // stream data
+//     });
+//     file.data.on("end", () => {
+//         // stream end
+//     });
+
+//     // or use pipe
+//     const writeStream = fs.createWriteStream('./output.png');
+//     file.data.pipe(writeStream);
+// }
+
+// async function search() {
+//     const folderId = "";
+//     const query = await tsGoogleDrive
+//         .query()
+//         .setFolderOnly()
+//         .inFolder(folderId)
+//         .setPageSize(3)
+//         .setOrderBy("name")
+//         .setNameContains("New");
+
+//     // or you can use any query https://developers.google.com/drive/api/v3/search-files
+//     query.setQuery("name = 'hello'");
+
+//     while (query.hasNextPage()) {
+//         const folders = await query.run();
+//         for (const folder of folders) {
+//             await folder.delete();
+//         }
+//     }
+// }
+
+// async function emptyTrash() {
+//     const trashedFiles = await tsGoogleDrive
+//         .query()
+//         .inTrash()
+//         .run();
+
+//     await tsGoogleDrive.emptyTrash();
+// }
+
+ 
+
+const { google } = require('googleapis');
+const fs = require('fs');
+const credentials = require('./credentials.json');
+const scopes = ['https://www.googleapis.com/auth/drive'];
+
+const auth = new google.auth.JWT(
+    credentials.client_email, null,
+    credentials.private_key, scopes
+);
+
+const drive = google.drive({ version: 'v3', auth });
+const sheets = google.sheets({ version: 'v4', auth });
+
+(async function () {
+
+    let res = await drive.files.list({
+        pageSize: 20,
+        fields: 'files(name,fullFileExtension,webViewLink)',
+        orderBy: 'createdTime desc'
+    });
+
+    let newSheet = await sheets.spreadsheets.create({
+        resource: {
+            properties: {
+                title: 'Another Day, Another Spreadsheet',
+            }
+        }
+    });
+
+    const updatedSheet = await drive.files.update({
+        fileId: newSheet.data.spreadsheetId,
+        // Add your own file ID:
+        addParents: '1Kyd0SwMUuDaIhs03XtKG849-d6Ku_hRE',
+        fields: 'id, parents'
+    });
+
+    // Transfer ownership
+    await drive.permissions.create({
+        fileId: newSheet.data.spreadsheetId,
+        transferOwnership: 'true',
+        resource: {
+            role: 'owner',
+            type: 'user',
+            // Add your own email address:
+            emailAddress: 'youremail@gmail.com'
+        }
+    });
+
+    // Add data as new rows
+    let sheetData = [['File Name', 'URL']];
+
+    res.data.files.map((entry: { name: any; webViewLink: any; }) => {
+        const { name, webViewLink } = entry;
+        sheetData.push([name, webViewLink]);
+    });
+
+    sheets.spreadsheets.values.append({
+        spreadsheetId: newSheet.data.spreadsheetId,
+        valueInputOption: 'USER_ENTERED',
+        range: 'A1',
+        resource: {
+            range: 'A1',
+            majorDimension: 'ROWS',
+            values: sheetData,
+        },
+    });
+
+    // Add styling to the first row
+    await sheets.spreadsheets.batchUpdate({
+        spreadsheetId: newSheet.data.spreadsheetId,
+        resource: {
+            requests: [
+                {
+                    repeatCell: {
+                        range: {
+                            startRowIndex: 0,
+                            endRowIndex: 1
+                        },
+                        cell: {
+                            userEnteredFormat: {
+                                backgroundColor: {
+                                    red: 0.2,
+                                    green: 0.2,
+                                    blue: 0.2
+                                },
+                                textFormat: {
+                                    foregroundColor: {
+                                        red: 1,
+                                        green: 1,
+                                        blue: 1
+                                    },
+                                    bold: true,
+                                }
+                            }
+                        },
+                        fields: 'userEnteredFormat(backgroundColor,textFormat)'
+                    }
+                },
+            ]
+        }
+    });
+
+    // Back-up data locally
+    let data = 'Name,URL\n';
+
+    res.data.files.map((entry: { name: any; webViewLink: any; }) => {
+        const { name, webViewLink } = entry;
+        data += `${name},${webViewLink}\n`;
+    });
+
+    fs.writeFile('data.csv', data, (err: any) => {
+        if (err) throw err;
+    });
+
+})()

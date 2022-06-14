@@ -24,7 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private titleService: Title,
     private translateService: TranslateService,
     private i18nService: I18nService
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Setup logger
@@ -53,7 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
         switchMap((route) => route.data),
         untilDestroyed(this)
       )
-      .subscribe((event) => {
+      .subscribe((event: any) => {
         const title = event['title'];
         if (title) {
           this.titleService.setTitle(this.translateService.instant(title));
